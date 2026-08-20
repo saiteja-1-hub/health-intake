@@ -15,7 +15,16 @@ export function useWebSocket() {
   useEffect(() => {
     console.log("Creating WebSocket connection...");
 
-    const socket = new WebSocket("ws://localhost:5000");
+  
+
+const WS_URL =
+  import.meta.env.VITE_WS_URL || "ws://localhost:5000";
+
+console.log("================================");
+console.log("WEBSOCKET URL:", WS_URL);
+console.log("================================");
+
+const socket = new WebSocket(WS_URL);
 
     socketRef.current = socket;
 
