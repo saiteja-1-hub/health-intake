@@ -1,0 +1,578 @@
+/* =========================================
+   GLOBAL
+========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: #172033;
+  background: #f4f7fb;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: #f4f7fb;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+
+/* =========================================
+   MAIN APP
+========================================= */
+
+.app {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.app > h1 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 28px;
+  color: #172033;
+}
+
+
+/* =========================================
+   STATUS BADGE
+========================================= */
+
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  padding: 16px 20px;
+  margin-bottom: 24px;
+
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 16px rgba(20, 35, 60, 0.05);
+
+  font-size: 15px;
+}
+
+.status-container > strong {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background: #eaf7ef;
+  color: #16834d;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status {
+  width: 100%;
+
+  margin-top: 4px;
+
+  color: #697386;
+  font-size: 14px;
+}
+
+.status strong {
+  color: #334155;
+}
+
+
+/* =========================================
+   CALL CONTROLLER
+========================================= */
+
+.call-controller {
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+
+  padding: 24px;
+
+  margin-bottom: 24px;
+
+  box-shadow: 0 6px 20px rgba(20, 35, 60, 0.06);
+}
+
+
+/* Call buttons */
+
+.call-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.call-buttons button {
+  border: none;
+  border-radius: 10px;
+
+  padding: 11px 22px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.call-buttons button:first-child {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.call-buttons button:first-child:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+}
+
+.call-buttons button:nth-child(2) {
+  background: #f1f3f7;
+  color: #334155;
+}
+
+.call-buttons button:nth-child(2):hover {
+  background: #e8ebf0;
+}
+
+.call-buttons button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* =========================================
+   MESSAGE INPUT
+========================================= */
+
+.message-input {
+  display: flex;
+  gap: 10px;
+}
+
+.message-input input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 12px 15px;
+
+  border: 1px solid #d9e0ea;
+  border-radius: 10px;
+
+  outline: none;
+
+  color: #172033;
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.message-input input::placeholder {
+  color: #9aa4b2;
+}
+
+.message-input input:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.message-input button {
+  border: none;
+  border-radius: 10px;
+
+  padding: 0 22px;
+
+  background: #172033;
+  color: #ffffff;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.message-input button:hover {
+  transform: translateY(-1px);
+}
+
+.message-input button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+
+/* =========================================
+   TRANSCRIPT
+========================================= */
+
+.transcript {
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+
+  padding: 24px;
+
+  margin-bottom: 24px;
+
+  box-shadow: 0 6px 20px rgba(20, 35, 60, 0.06);
+}
+
+.transcript h2,
+.health-report h2 {
+  font-size: 20px;
+  font-weight: 700;
+
+  margin-bottom: 20px;
+
+  color: #172033;
+}
+
+
+/* Empty state */
+
+.empty-message {
+  color: #8b95a5;
+  font-size: 14px;
+
+  padding: 30px 0;
+
+  text-align: center;
+}
+
+
+/* Messages */
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  max-height: 430px;
+  overflow-y: auto;
+
+  padding-right: 5px;
+}
+
+
+/* Individual message */
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  max-width: 85%;
+
+  padding: 14px 16px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.message strong {
+  font-size: 13px;
+}
+
+
+/* AI message */
+
+.ai-message {
+  align-self: flex-start;
+
+  background: #f1f5ff;
+  border: 1px solid #dce7ff;
+
+  color: #26364f;
+}
+
+.ai-message strong {
+  color: #2563eb;
+}
+
+
+/* User message */
+
+.user-message {
+  align-self: flex-end;
+
+  background: #172033;
+  color: #ffffff;
+
+  border-radius: 12px 12px 3px 12px;
+}
+
+.user-message strong {
+  color: #cbd5e1;
+}
+
+
+/* =========================================
+   HEALTH REPORT
+========================================= */
+
+.health-report {
+  background: #ffffff;
+
+  border: 1px solid #e5eaf2;
+  border-radius: 16px;
+
+  padding: 24px;
+
+  box-shadow: 0 6px 20px rgba(20, 35, 60, 0.06);
+}
+
+.health-report h2 {
+  margin-bottom: 24px;
+}
+
+
+/* Report content */
+
+.report-content {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+}
+
+
+/* Individual report fields */
+
+.report-content > div {
+  padding: 16px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e7ebf1;
+
+  border-radius: 10px;
+
+  color: #475569;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+.report-content strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #172033;
+
+  font-size: 13px;
+}
+
+
+/* Recommendation */
+
+.report-content > div:last-child {
+  grid-column: 1 / -1;
+
+  background: #fff8e7;
+  border-color: #f4dfaa;
+}
+
+.report-content > div:last-child strong {
+  color: #9a6700;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: #d3dae5;
+  border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: #b9c2d0;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+  .app {
+    padding: 25px 16px 40px;
+  }
+
+  .app > h1 {
+    font-size: 26px;
+    margin-bottom: 22px;
+  }
+
+  .call-controller,
+  .transcript,
+  .health-report {
+    padding: 18px;
+  }
+
+  .call-buttons {
+    flex-direction: column;
+  }
+
+  .call-buttons button {
+    width: 100%;
+  }
+
+  .message-input {
+    flex-direction: column;
+  }
+
+  .message-input button {
+    min-height: 44px;
+  }
+
+  .message {
+    max-width: 95%;
+  }
+
+  .report-content {
+    grid-template-columns: 1fr;
+  }
+
+  .report-content > div:last-child {
+    grid-column: auto;
+  }
+}
+
+/* =========================================
+   VOICE CONTROLS
+========================================= */
+
+.voice-controls {
+  margin-bottom: 16px;
+}
+
+.voice-controls button {
+  width: 100%;
+
+  padding: 13px 18px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #eef2ff;
+  color: #3730a3;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.voice-controls button:hover {
+  background: #e0e7ff;
+  transform: translateY(-1px);
+}
+
+.voice-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* =========================================
+   LISTENING STATUS
+========================================= */
+
+.listening-status {
+  margin-bottom: 14px;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  background: #eef2ff;
+
+  color: #4338ca;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* =========================================
+   SPEECH ERROR
+========================================= */
+
+.speech-error {
+  margin-bottom: 14px;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  background: #fff1f2;
+
+  color: #be123c;
+
+  border: 1px solid #fecdd3;
+
+  font-size: 13px;
+}

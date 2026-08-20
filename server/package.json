@@ -1,0 +1,23 @@
+{
+  "name": "voice-health-screener-server",
+  "version": "1.0.0",
+  "description": "Backend for AI Voice Health Screener",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "@deepgram/sdk": "^5.8.0",
+    "@elevenlabs/elevenlabs-js": "^2.64.0",
+    "@google/genai": "^2.18.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
