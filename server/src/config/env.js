@@ -1,13 +1,9 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 
-dotenv.config();
-
-export const PORT =
-  process.env.PORT || 5000;
+export const PORT = process.env.PORT || 5000;
 
 export const CLIENT_URL =
-  process.env.CLIENT_URL ||
-  "http://localhost:5173";
+  process.env.CLIENT_URL || "http://localhost:5173";
 
 export const GEMINI_API_KEY =
   process.env.GEMINI_API_KEY;
@@ -17,6 +13,3 @@ export const DEEPGRAM_API_KEY =
 
 export const ELEVENLABS_API_KEY =
   process.env.ELEVENLABS_API_KEY;
-
-export const ELEVENLABS_VOICE_ID =
-  process.env.ELEVENLABS_VOICE_ID;
