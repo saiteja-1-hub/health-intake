@@ -13,6 +13,10 @@ import {
 } from "./websocket/callHandler.js";
 
 
+// ==========================================
+// EXPRESS APP
+// ==========================================
+
 const app = express();
 
 
@@ -26,9 +30,7 @@ app.use(
   })
 );
 
-app.use(
-  express.json()
-);
+app.use(express.json());
 
 
 // ==========================================
@@ -36,16 +38,15 @@ app.use(
 // ==========================================
 
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
-    message:
-      "AI Voice Health Screener API is running",
+    message: "AI Voice Health Screener API is running",
   });
 });
 
 
 app.get("/health", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     status: "healthy",
   });
@@ -72,19 +73,15 @@ const wss = new WebSocketServer({
 // WEBSOCKET CONNECTION
 // ==========================================
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws, request) => {
 
+  console.log("================================");
+  console.log("WebSocket client connected");
   console.log(
-    "================================"
+    "Client:",
+    request.socket.remoteAddress
   );
-
-  console.log(
-    "WebSocket client connected"
-  );
-
-  console.log(
-    "================================"
-  );
+  console.log("================================");
 
 
   // ========================================
@@ -93,13 +90,9 @@ wss.on("connection", (ws) => {
 
   const session = {
     isActive: false,
-
     isProcessing: false,
-
     transcriptHistory: [],
-
     currentQuestionIndex: 0,
-
     answers: {},
   };
 
@@ -124,27 +117,11 @@ wss.on("connection", (ws) => {
     "message",
     async (message, isBinary) => {
 
-      console.log(
-        "================================"
-      );
-
-      console.log(
-        "WebSocket message received"
-      );
-
-      console.log(
-        "Binary:",
-        isBinary
-      );
-
-      console.log(
-        "Size:",
-        message.length
-      );
-
-      console.log(
-        "================================"
-      );
+      console.log("================================");
+      console.log("WebSocket message received");
+      console.log("Binary:", isBinary);
+      console.log("Size:", message.length);
+      console.log("================================");
 
 
       try {
@@ -163,7 +140,24 @@ wss.on("connection", (ws) => {
           error
         );
 
+
+        // Don't crash the WebSocket
+        if (
+          ws.readyState === ws.OPEN
+        ) {
+
+          ws.send(
+            JSON.stringify({
+              event: "ERROR",
+              data:
+                "Something went wrong while processing your request.",
+            })
+          );
+
+        }
+
       }
+
     }
   );
 
@@ -172,13 +166,21 @@ wss.on("connection", (ws) => {
   // CLOSE
   // ========================================
 
-  ws.on("close", () => {
+  ws.on("close", (code, reason) => {
 
+    console.log("================================");
     console.log(
       "WebSocket client disconnected"
     );
+    console.log("Close code:", code);
+    console.log(
+      "Close reason:",
+      reason?.toString() || ""
+    );
+    console.log("================================");
 
     session.isActive = false;
+
   });
 
 
@@ -199,28 +201,53 @@ wss.on("connection", (ws) => {
 
 
 // ==========================================
+// WEBSOCKET SERVER ERROR
+// ==========================================
+
+wss.on("error", (error) => {
+
+  console.error(
+    "WebSocket server error:",
+    error
+  );
+
+});
+
+
+// ==========================================
 // START SERVER
 // ==========================================
 
 server.listen(
   PORT,
+  "0.0.0.0",
   () => {
 
+    console.log("================================");
     console.log(
-      "================================"
+      `HTTP server running on port ${PORT}`
     );
-
     console.log(
-      `Server running on http://localhost:${PORT}`
+      `WebSocket server running on port ${PORT}`
     );
-
     console.log(
-      `WebSocket running on ws://localhost:${PORT}`
+      `Client URL: ${CLIENT_URL}`
     );
-
-    console.log(
-      "================================"
-    );
+    console.log("================================");
 
   }
 );
+
+
+// ==========================================
+// SERVER ERROR
+// ==========================================
+
+server.on("error", (error) => {
+
+  console.error(
+    "HTTP server error:",
+    error
+  );
+
+});
